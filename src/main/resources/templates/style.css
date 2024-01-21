@@ -1,0 +1,32 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-image: url("https://wallpaperbat.com/img/211864-roadblocks-for-banks-seeking-shared-services-accenture-banking-blog.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+input{
+    width: 200px;
+    height: 50px;
+    border: 2px solid black;
+    background-color: rgba(14, 47, 136, 0.53);
+    color: wheat;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 30px;
+
+}
+#page_redirects{
+    display: flex;
+    margin-left:225px;
+    margin-top:250px;
+}
+
+input:hover{
+    background-color: #02fd02;
+    border: 2px solid red;
+}

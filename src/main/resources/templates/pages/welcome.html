@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Atm</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #d96969;
+        }
+        div{
+            width: 100%;
+            height: 100%;
+        }
+        table{
+            width: 100%;
+            height: 100%;
+            /*border: 3px solid red;*/
+        }
+        table th{
+            font-size: 30px;
+        }
+        table td, table th{
+            width: 20%;
+            height: 100px;
+        }
+        input{
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 15px;
+            /*color: white;*/
+            background-color: #e51b1b;
+            border-color: transparent;
+        }
+        input:hover {
+            background-color: #5294d3;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 50%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div>
+        <form>
+            <table cellspacing="0px" cellpadding="2px">
+                <thead>
+                <tr>
+                    <th colspan="5">
+                        ATM Service
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> </td>
+                    <td>
+                        <input type="submit" value="Withdraw" formaction="withdrawBalancePage">
+                    </td>
+
+                    <td>
+<!--                        <label>-->
+<!--                            <input type="number" name="accountHolderBalance">-->
+<!--                        </label>-->
+                    </td>
+                    <td>
+                        <input type="submit" value="Deposit" formaction="depositBalancePage">
+                    </td>
+
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td >
+                        <input type="submit" value="Show Balance" formaction="showBalancePage">
+                    </td>
+
+                    <td> </td>
+                    <td >
+                        <input type="submit" value="Change Pin" formaction="changePinPage">
+                    </td>
+
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        &nbsp;
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        <input type="submit" value="Exit" formaction="logout">
+                    </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+
+    </div>
+
+</body>
+</html>
