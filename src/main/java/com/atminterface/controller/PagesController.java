@@ -29,28 +29,24 @@ public class PagesController {
         return "pages/AddAtm";
     }
 
-    @RequestMapping("withdrawBalancePage")
-    public String withdrawBalancePage(){
-        return "pages/atmServices/WithdrawalPage";
-    }
-
-    @RequestMapping("depositBalancePage")
-    public String depositBalancePage(){
-        return "pages/atmServices/DepositPage";
-
-    }
-    @RequestMapping("showBalancePage")
-    public String showBalancePage(){
-        return "pages/atmServices/ShowBalance";
-    }
-
-    @RequestMapping("changePinPage")
-    public String changePinPage(){
-        return "pages/atmServices/ChangePin";
-    }
-
     @RequestMapping("forgetPin")
     public String forgetPin(){
         return "pages/ForgetPin";
+    }
+
+    public String indexPage(){
+        return "index";
+    }
+
+    public String welcomePage(){
+        return "pages/welcome";
+    }
+
+    public String transactionHistoryPage() {
+        return "pages/atmServices/GetHistory";
+    }
+
+    public String atmLoginPage(){
+        return "pages/AtmLogin";
     }
 }

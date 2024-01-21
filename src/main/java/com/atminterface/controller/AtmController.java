@@ -35,6 +35,9 @@ public class AtmController {
     @Autowired
     TransactionHistoryRepository transactionHistoryRepository;
 
+    @Autowired
+    PagesController page;
+
     static HttpSession httpSession;
 
 
@@ -45,7 +48,7 @@ public class AtmController {
         String viewName;
         Boolean login = atmService.loginIntoAtm(atm);
         if (login==null){
-            viewName = "pages/AtmLogin";
+            viewName = page.atmLoginPage();
 
         } else if (login) {
             httpSession = request.getSession();
@@ -53,13 +56,23 @@ public class AtmController {
             httpSession.setAttribute("holderAtmPin",atm.getAtmPin());
 
             System.out.println(httpSession.getId());
-            viewName = "pages/welcome";
+            viewName = page.welcomePage();
         }else{
-            viewName = "pages/AtmLogin";
+            viewName = page.atmLoginPage();
         }
         mv.setViewName(viewName);
 
     return mv;
+    }
+
+
+    @RequestMapping("logout")
+    public String logout() {
+        HttpSession httpSession1 = AtmController.httpSession;
+        httpSession1.invalidate();
+        System.out.println(httpSession1.getId());
+        System.out.println("Logout");
+        return page.indexPage();
     }
 
 
@@ -75,12 +88,13 @@ public class AtmController {
         ){
             System.out.println("Amount Deposit "+amount);
             model.addAttribute("message","Successfully deposit amount "+amount);
-            return "pages/welcome";
+            return page.welcomePage();
         }
         System.out.println("something went wrong");
         model.addAttribute("message","Something went wrong when depositing amount "+amount);
-        return "pages/welcome";
+        return page.welcomePage();
     }
+
 
     @RequestMapping("withdrawBalance")
     public String withdrawBalance(Double amount, Model model){
@@ -96,22 +110,15 @@ public class AtmController {
         if (value){
             System.out.println("withdraw");
             model.addAttribute("message","Successfully withdraw amount "+amount);
-            return "pages/welcome";
+            return page.welcomePage();
         }
         System.out.println("something went wrong");
 
         model.addAttribute("message","Invalid withdrawal amount "+amount);
-        return "pages/welcome";
+        return page.welcomePage();
     }
 
-    @RequestMapping("logout")
-    public String logout() {
-        HttpSession httpSession1 = AtmController.httpSession;
-        httpSession1.invalidate();
-        System.out.println(httpSession1.getId());
-        System.out.println("Logout");
-        return "pages/AtmLogin";
-    }
+
 
     @RequestMapping("addAtmIntoDb")
     public String addAtmIntoDb(Atm atm){
@@ -125,10 +132,11 @@ public class AtmController {
             atmService.saveAtm(atm);
 
         }catch (Exception e){
-            return "index";
+            return page.indexPage();
         }
-        return "pages/AtmLogin";
+        return page.atmLoginPage();
     }
+
 
     @RequestMapping("changePin")
     public String validatePin(Integer amount){
@@ -137,10 +145,10 @@ public class AtmController {
         HttpSession httpSession1 = AtmController.httpSession;
         Long accountNumber =(Long) httpSession1.getAttribute("holderAccountNumber");
         if (!atmService.updatePin(accountNumber, amount)){
-            return "pages/welcome";
+            return page.welcomePage();
         }
 
-        return "pages/welcome";
+        return page.welcomePage();
     }
 
     @RequestMapping("getBalance")
@@ -153,8 +161,7 @@ public class AtmController {
         model.addAttribute("message",
                 "your balance is "+bankAccountRepository.findById(accountNumber).get().getAccountHolderBalance());
 
-        return "pages/welcome";
-//        return "pages/atmServices/ShowBalance";
+        return page.welcomePage();
     }
 
     @RequestMapping("accountHistory")
@@ -164,6 +171,6 @@ public class AtmController {
         model.addAttribute("transactionList",
                 transactionHistoryRepository.getTransactionHistoryByAccountNumberOrderByTransactionTimeDesc(accountNumber)
                 );
-        return "pages/atmServices/GetHistory";
+        return page.transactionHistoryPage();
     }
 }

@@ -13,6 +13,9 @@ public class BankAccountController {
     @Autowired
     BankAccountService bankAccountService;
 
+    @Autowired
+    PagesController page;
+
     @RequestMapping("addAccountIntoDb")
     public String addAccountIntoDb(BankAccount bankAccount, Model model){
         bankAccount.setAccountHolderBalance(0.0);
@@ -21,7 +24,7 @@ public class BankAccountController {
                 accountNumber
         );
         model.addAttribute("accountNumber","Your Account Number is "+accountNumber);
-        return "index";
+        return page.indexPage();
     }
 
     @RequestMapping("findAccount")
