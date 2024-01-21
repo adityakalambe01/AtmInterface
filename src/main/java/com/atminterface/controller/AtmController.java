@@ -3,6 +3,7 @@ package com.atminterface.controller;
 import com.atminterface.entity.Atm;
 import com.atminterface.entity.BankAccount;
 import com.atminterface.entity.TransactionHistory;
+import com.atminterface.repository.AtmRepository;
 import com.atminterface.repository.BankAccountRepository;
 import com.atminterface.repository.TransactionHistoryRepository;
 import com.atminterface.service.AtmService;
@@ -38,17 +39,22 @@ public class AtmController {
     @Autowired
     PagesController page;
 
+    @Autowired
+    AtmRepository atmRepository;
+
+
     static HttpSession httpSession;
 
-
+    /*
+          ATM Login Logic
+    */
     @RequestMapping("login")
-    public ModelAndView login(Atm atm, HttpServletRequest request){
-        ModelAndView mv = new ModelAndView();
+    public String login(Atm atm, HttpServletRequest request, Model model){
 
-        String viewName;
         Boolean login = atmService.loginIntoAtm(atm);
         if (login==null){
-            viewName = page.atmLoginPage();
+            model.addAttribute("invalidAccountNumber","Invalid Account Number");
+            return page.atmLoginPage();
 
         } else if (login) {
             httpSession = request.getSession();
@@ -56,16 +62,16 @@ public class AtmController {
             httpSession.setAttribute("holderAtmPin",atm.getAtmPin());
 
             System.out.println(httpSession.getId());
-            viewName = page.welcomePage();
         }else{
-            viewName = page.atmLoginPage();
+            model.addAttribute("invalidPin","Wrong Pin Entered");
+            return page.atmLoginPage();
         }
-        mv.setViewName(viewName);
-
-    return mv;
+        return page.welcomePage();
     }
 
-
+    /*
+        ATM Logout Logic
+    */
     @RequestMapping("logout")
     public String logout() {
         HttpSession httpSession1 = AtmController.httpSession;
@@ -75,7 +81,9 @@ public class AtmController {
         return page.indexPage();
     }
 
-
+    /*
+         Deposit Balance Login
+    */
     @RequestMapping("depositBalance")
     public String depositBalance(Double amount, Model model){
         System.out.println(amount);
@@ -121,10 +129,15 @@ public class AtmController {
 
 
     @RequestMapping("addAtmIntoDb")
-    public String addAtmIntoDb(Atm atm){
+    public String addAtmIntoDb(Atm atm, Model model){
+
 
         try {
             Long accountNumber = bankAccountRepository.findByMobileNumber(atm.getAccountNumber()).getAccountNumber();
+            if (atmService.getAtmData(accountNumber)!=null){
+                model.addAttribute("accountNumber","ATM already exists!");
+                throw new Exception();
+            }
             if(accountNumber==null)
                 throw new Exception();
             atm.setAccountNumber(accountNumber);
@@ -172,5 +185,26 @@ public class AtmController {
                 transactionHistoryRepository.getTransactionHistoryByAccountNumberOrderByTransactionTimeDesc(accountNumber)
                 );
         return page.transactionHistoryPage();
+    }
+
+    @RequestMapping("updatePin")
+    public String updatePin(Long accountNumber, Long mobileNumber, Integer atmPin, Model model){
+        try {
+            if (
+                    bankAccountRepository.findByMobileNumber(mobileNumber)==null
+            ){
+                model.addAttribute("invalidMobileNumber","Invalid Mobile Number");
+                throw new Exception();
+            }  else if (atmRepository.findByAccountNumber(accountNumber)==null) {
+                model.addAttribute("invalidAccountNumber","Invalid Account Number");
+                throw new Exception();
+            }
+            Atm atm = atmService.getAtmData(accountNumber);
+            atm.setAtmPin(atmPin);
+            atmService.saveAtm(atm);
+        }catch (Exception e){
+            return page.forgetPin();
+        }
+        return page.atmLoginPage();
     }
 }

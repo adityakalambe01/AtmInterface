@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,14 +81,41 @@
 <body>
 <form>
   <div>
-    <input type="text" name="accountNumber" value="Forget Pin" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9;">
+    <input type="text" value="Forget Pin" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9;">
   </div>
   <div>
     <input type="number" name="accountNumber" placeholder="Account Number" oninput="checkInputs()">
   </div>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <sup style="color: red;">
+    <sup>
+      <label th:text="${invalidAccountNumber}"></label>
+    </sup>
+  </sup>
+
+
+
   <div>
     <input type="number" name="mobileNumber" placeholder="Mobile Number" oninput="checkInputs()">
   </div>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <sup style="color: red;">
+    <sup>
+      <label th:text="${invalidMobileNumber}"></label>
+    </sup>
+  </sup>
+
+
   <div>
     <input type="number" name="atmPin" placeholder="Enter New Pin" oninput="checkInputs()">
   </div>
@@ -98,7 +125,7 @@
     </div>
 
     <div>
-      <input type="submit" value="Change Pin" formaction="changePin" id="loginButton" disabled>
+      <input type="submit" value="Update Pin" formaction="updatePin" id="loginButton" disabled>
     </div>
   </div>
 </form>

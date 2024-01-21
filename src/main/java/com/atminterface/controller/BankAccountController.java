@@ -1,6 +1,7 @@
 package com.atminterface.controller;
 
 import com.atminterface.entity.BankAccount;
+import com.atminterface.repository.BankAccountRepository;
 import com.atminterface.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,27 @@ public class BankAccountController {
     BankAccountService bankAccountService;
 
     @Autowired
+    BankAccountRepository bankAccountRepository;
+
+    @Autowired
     PagesController page;
 
     @RequestMapping("addAccountIntoDb")
     public String addAccountIntoDb(BankAccount bankAccount, Model model){
-        bankAccount.setAccountHolderBalance(0.0);
-        Long accountNumber = bankAccountService.addAccount(bankAccount);
-        System.out.println(
-                accountNumber
-        );
-        model.addAttribute("accountNumber","Your Account Number is "+accountNumber);
+        try {
+            if (bankAccountRepository.findByMobileNumber(bankAccount.getMobileNumber())!=null){
+                throw new Exception();
+            }
+            bankAccount.setAccountHolderBalance(0.0);
+            Long accountNumber = bankAccountService.addAccount(bankAccount);
+            System.out.println(
+                    accountNumber
+            );
+            model.addAttribute("accountNumber","Your Account Number is "+accountNumber);
+        }catch (Exception e){
+            model.addAttribute("message","Mobile Number is already exists!");
+            return page.atmLoginPage();
+        }
         return page.indexPage();
     }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -74,16 +74,54 @@
                 loginButton.disabled = true;
             }
         }
+
+
     </script>
 </head>
 <body>
 <form>
+
+
+    <div>
+        <input type="text" value="ATM Login" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9;">
+        <br>
+        <br>
+        <br>
+    </div>
+
     <div>
         <input type="number" name="accountNumber" placeholder="Account Number" oninput="checkInputs()">
     </div>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <sup style="color: red;">
+        <sup>
+            <label th:text="${invalidAccountNumber}"></label>
+        </sup>
+    </sup>
+
     <div>
         <input type="number" name="atmPin" placeholder="ATM PIN" oninput="checkInputs()">
     </div>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <sup style="color: red;">
+        <sup>
+            <label th:text="${invalidPin}"></label>
+        </sup>
+    </sup>
+
+
+
     <div>
         <div>
             <a href="addAtm">Generate Pin</a>
@@ -96,5 +134,7 @@
         </div>
     </div>
 </form>
+
+
 </body>
 </html>

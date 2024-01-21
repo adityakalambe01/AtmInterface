@@ -49,4 +49,8 @@ public class AtmService {
         return false;
 
     }
+
+    public Atm getAtmData(Long accno){
+        return atmRepository.findByAccountNumber(accno);
+    }
 }
