@@ -19,7 +19,7 @@ public class BankAccount {
 
     private String accountHolderName;
 
-    private LocalDate accountHolderDOB;
+    private Long mobileNumber;
 
     @Column(name = "account_holder_balance", columnDefinition = "double default 0")
     private Double accountHolderBalance;

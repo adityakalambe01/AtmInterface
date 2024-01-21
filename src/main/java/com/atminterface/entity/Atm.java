@@ -11,14 +11,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "atm_usage")
-public class ATM {
+public class Atm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long atmId;
+    private Long accountNumber;
 
-    @OneToOne
-    @JoinColumn(name = "accountNumber")
-    private BankAccount accountNumber;
-
+    @Column(name = "atm_pin", columnDefinition = "int default 1234")
     private int atmPin;
 }

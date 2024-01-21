@@ -2,9 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #3498db;
+      color: #ecf0f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    form {
+      width: 300px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #3498db;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    input[type="submit"],
+    a {
+      width: 100%;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      color: #ecf0f1;
+      background-color: #3498db;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out;
+      display: inline-block;
+    }
+
+    input[type="submit"]:hover,
+    a:hover {
+      background-color: #2980b9;
+    }
+
+
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+  <script>
+    function checkInputs() {
+      var accountNumber = document.getElementsByName("accountNumber")[0].value;
+      var mobileNumber = document.getElementsByName("mobileNumber")[0].value;
+      var atmPin = document.getElementsByName("atmPin")[0].value;
+      var loginButton = document.getElementById("loginButton");
+
+      if (accountNumber.trim() !== "" && atmPin.trim() !== "" && mobileNumber.trim()!=="") {
+        loginButton.disabled = false;
+      } else {
+        loginButton.disabled = true;
+      }
+    }
+  </script>
 </head>
 <body>
-$END$
+<form>
+  <div>
+    <input type="text" name="accountNumber" value="Forget Pin" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9;">
+  </div>
+  <div>
+    <input type="number" name="accountNumber" placeholder="Account Number" oninput="checkInputs()">
+  </div>
+  <div>
+    <input type="number" name="mobileNumber" placeholder="Mobile Number" oninput="checkInputs()">
+  </div>
+  <div>
+    <input type="number" name="atmPin" placeholder="Enter New Pin" oninput="checkInputs()">
+  </div>
+  <div>
+    <div>
+      <a href="userLogin">Back To Login</a>
+    </div>
+
+    <div>
+      <input type="submit" value="Change Pin" formaction="changePin" id="loginButton" disabled>
+    </div>
+  </div>
+</form>
 </body>
 </html>

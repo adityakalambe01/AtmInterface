@@ -1,46 +1,100 @@
-<!--
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-
--->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
     <style>
-        div div{
-            display: inline-flex;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #3498db;
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"],
+        a {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #ecf0f1;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        input[type="submit"]:hover,
+        a:hover {
+            background-color: #2980b9;
+        }
+
+        div {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
+    <script>
+        function checkInputs() {
+            var accountNumber = document.getElementsByName("accountNumber")[0].value;
+            var atmPin = document.getElementsByName("atmPin")[0].value;
+            var loginButton = document.getElementById("loginButton");
+
+            if (accountNumber.trim() !== "" && atmPin.trim() !== "") {
+                loginButton.disabled = false;
+            } else {
+                loginButton.disabled = true;
+            }
+        }
+    </script>
 </head>
 <body>
-    <form>
+<form>
+    <div>
+        <input type="number" name="accountNumber" placeholder="Account Number" oninput="checkInputs()">
+    </div>
+    <div>
+        <input type="number" name="atmPin" placeholder="ATM PIN" oninput="checkInputs()">
+    </div>
+    <div>
         <div>
-            <input type="number" name="accountNumber">
+            <a href="addAtm">Generate Pin</a>
         </div>
         <div>
-            <input type="number" name="atmPin">
+            <a href="forgetPin">Forget Pin</a>
         </div>
         <div>
-            <div>
-                <a href="addAtm">Generate pin</a>
-            </div>
-            <div>
-                <a href="forgetPin">Forget pin</a>
-            </div>
-            <div>
-                <input type="submit" value="Login" formaction="login">
-            </div>
+            <input type="submit" value="Login" formaction="login" id="loginButton" disabled>
         </div>
-
-
-
-
-    </form>
-
+    </div>
+</form>
 </body>
 </html>

@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +19,13 @@ public class TransactionHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionID;
 
+    private Long accountNumber;
+
     private Double amount;
 
     private String reason;
+
+    private LocalDate transactionDate;
+
+    private LocalTime transactionTime;
 }
