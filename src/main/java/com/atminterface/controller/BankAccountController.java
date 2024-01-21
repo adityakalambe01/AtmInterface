@@ -4,6 +4,7 @@ import com.atminterface.entity.BankAccount;
 import com.atminterface.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,12 +14,14 @@ public class BankAccountController {
     BankAccountService bankAccountService;
 
     @RequestMapping("addAccountIntoDb")
-    public String addAccountIntoDb(BankAccount bankAccount){
+    public String addAccountIntoDb(BankAccount bankAccount, Model model){
         bankAccount.setAccountHolderBalance(0.0);
+        Long accountNumber = bankAccountService.addAccount(bankAccount);
         System.out.println(
-                bankAccountService.addAccount(bankAccount)
+                accountNumber
         );
-        return "pages/AtmLogin";
+        model.addAttribute("accountNumber","Your Account Number is "+accountNumber);
+        return "index";
     }
 
     @RequestMapping("findAccount")
