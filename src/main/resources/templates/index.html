@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -51,7 +51,8 @@
 <body>
 <form>
     <div>
-        <input type="text" value="${accountNumber}" disabled style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold; color: white; width: auto;">
+        <input type="text" th:text="${accountNumber}" disabled style="background-color: transparent; border-color: transparent; font-size: 22px; font-weight: bold; color: white; width: auto;">
+<!--        <p th:text="${message}" style="font-size: 20px; width: 100%; text-align: center;"></p>-->
     </div>
     <div id="page_redirects">
         <div>
