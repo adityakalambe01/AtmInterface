@@ -1,5 +1,6 @@
 package com.atminterface.controller;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class PagesController {
     @RequestMapping("/")
-    public String homePage(Model model){
-        model.addAttribute("accountNumber","");
+    public String homePage(@NotNull Model model){
+        model.addAttribute("accountNumber","Welcome To Online Bank Service");
         return "index";
     }
 
