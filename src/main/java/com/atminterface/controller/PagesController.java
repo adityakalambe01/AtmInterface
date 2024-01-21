@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class PagesController {
-    @RequestMapping("/")
+    @RequestMapping("")
     public String homePage(@NotNull Model model){
         model.addAttribute("accountNumber","Welcome To Online Bank Service");
         return "index";
