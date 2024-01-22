@@ -26,7 +26,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        input[type="number"] {
+        input[type="number"],
+        input[type="password"]{
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -59,7 +60,7 @@
     <input type="text" value="Add ATM Service" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9;">
     <br><br>
     <input type="number" name="MobileNumber" placeholder="Enter Mobile Number">
-    <input type="number" name="atmPin" placeholder="Enter ATM Pin">
+    <input type="password" name="atmPin" placeholder="Enter ATM Pin">
     <input type="submit" value="Add ATM" formaction="addAtmIntoDb">
 </form>
 </body>

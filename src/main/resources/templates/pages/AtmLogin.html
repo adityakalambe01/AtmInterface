@@ -26,7 +26,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        input[type="number"] {
+        input[type="number"],
+        input[type="password"]{
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -83,14 +84,22 @@
 
 
     <div>
-        <input type="text" value="ATM Login" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9;">
-        <br>
-        <br>
-        <br>
+        <input type="text" value="ATM Login" disabled style="text-align: center; font-weight: bold; border-color: transparent !important;font-size: 22px; color: #2980b9; background-color: transparent !important;">
     </div>
 
     <div>
-        <input type="number" name="accountNumber" placeholder="Account Number" oninput="checkInputs()">
+        <input type="text" th:value="${updatedMessage}" style="border-color: transparent !important;
+        background-color: transparent; !important;
+        color: green !important;
+        text-align: center !important;
+        width: 100%;
+        font-weight: bold;
+        font-size: 15px;
+        ">
+    </div>
+
+    <div>
+        <input type="number" name="accountNumber" placeholder="Account Number" oninput="checkInputs()" th:style="${accountNumberBoxColor}">
     </div>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -105,7 +114,7 @@
     </sup>
 
     <div>
-        <input type="number" name="atmPin" placeholder="ATM PIN" oninput="checkInputs()">
+        <input type="password" name="atmPin" placeholder="ATM PIN" oninput="checkInputs()" th:style="${pinBoxColor}">
     </div>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

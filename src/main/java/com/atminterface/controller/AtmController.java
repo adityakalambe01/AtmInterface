@@ -57,6 +57,7 @@ public class AtmController {
 
         Boolean login = atmService.loginIntoAtm(atm);
         if (login==null){
+            model.addAttribute("accountNumberBoxColor", "border-color: red !important;");
             model.addAttribute("invalidAccountNumber","Invalid Account Number");
             return page.atmLoginPage();
 
@@ -69,6 +70,7 @@ public class AtmController {
 
             System.out.println(httpSession.getId());
         }else{
+            model.addAttribute("pinBoxColor","border-color: red !important;");
             model.addAttribute("invalidPin","Wrong Pin Entered");
             return page.atmLoginPage();
         }
@@ -79,11 +81,12 @@ public class AtmController {
     *    ATM Logout Logic
     */
     @RequestMapping("logout")
-    public String logout() {
+    public String logout(@NotNull Model model) {
         HttpSession httpSession1 = AtmController.httpSession;
         httpSession1.invalidate();
         System.out.println(httpSession1.getId());
         System.out.println("Logout");
+        model.addAttribute("homePageMessage","Welcome To Online Bank Service");
         return page.indexPage();
     }
 
@@ -146,13 +149,14 @@ public class AtmController {
     public String addAtmIntoDb(Long MobileNumber,Integer atmPin, Model model){
 
         try {
-            Long accountNumber = bankAccountRepository.findByMobileNumber(MobileNumber).getAccountNumber();
+            Long accountNumber = bankAccountService.getAccount(MobileNumber).getAccountNumber();
             if(accountNumber==null) {
-                model.addAttribute("accountNumber","Mobile Number is not registered!");
+                model.addAttribute("homePageMessage","Mobile Number is not registered!");
                 throw new Exception();
-            }else if (atmService.getAtmData(accountNumber)!=null){
-                model.addAttribute("accountNumber","ATM already exists!");
-                throw new Exception();
+            }
+            if (atmService.getAtmData(accountNumber)!=null){
+                model.addAttribute("homePageMessage","ATM already exists!");
+                throw new Exception("ATM already exists!");
             }
 
             Atm atm = new Atm();
@@ -161,8 +165,10 @@ public class AtmController {
             atmService.saveAtm(atm);
 
         }catch (Exception e){
+//            model.addAttribute("homePageMessage",e.getMessage());
             return page.indexPage();
         }
+        model.addAttribute("updatedMessage","ATM Service Added!");
         return page.atmLoginPage();
     }
 
@@ -221,21 +227,24 @@ public class AtmController {
     @RequestMapping("updatePin")
     public String updatePin(Long accountNumber, Long mobileNumber, Integer atmPin, Model model){
         try {
+            if (atmRepository.findByAccountNumber(accountNumber)==null) {
+                model.addAttribute("invalidAccountNumber","Invalid Account Number");
+                throw new Exception();
+            }
             if (
                     bankAccountRepository.findByMobileNumber(mobileNumber)==null
             ){
                 model.addAttribute("invalidMobileNumber","Invalid Mobile Number");
                 throw new Exception();
-            }  else if (atmRepository.findByAccountNumber(accountNumber)==null) {
-                model.addAttribute("invalidAccountNumber","Invalid Account Number");
-                throw new Exception();
             }
             Atm atm = atmService.getAtmData(accountNumber);
             atm.setAtmPin(atmPin);
             atmService.saveAtm(atm);
+
         }catch (Exception e){
             return page.forgetPin();
         }
+        model.addAttribute("updatedMessage","Pin Changed Successfully");
         return page.atmLoginPage();
     }
 }

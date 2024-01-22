@@ -39,10 +39,10 @@ public class BankAccountController {
             System.out.println(
                     accountNumber
             );
-            model.addAttribute("accountNumber","your Account Number is "+accountNumber);
+            model.addAttribute("homePageMessage","your Account Number is "+accountNumber);
         }catch (Exception e){
-            model.addAttribute("message","Mobile Number is already exists!");
-            return page.atmLoginPage();
+            model.addAttribute("homePageMessage","Mobile Number is already exists!");
+            return page.indexPage();
         }
         return page.indexPage();
     }
