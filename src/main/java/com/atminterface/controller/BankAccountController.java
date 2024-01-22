@@ -6,6 +6,7 @@ import com.atminterface.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,7 +21,7 @@ public class BankAccountController {
     @Autowired
     PagesController page;
 
-    @RequestMapping("addAccountIntoDb")
+    @PostMapping("addAccountIntoDb")
     public String addAccountIntoDb(BankAccount bankAccount, Model model){
         try {
             if (bankAccountRepository.findByMobileNumber(bankAccount.getMobileNumber())!=null){

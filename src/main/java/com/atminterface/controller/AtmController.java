@@ -128,7 +128,7 @@ public class AtmController {
 
 
 
-    @RequestMapping("addAtmIntoDb")
+    @PostMapping("addAtmIntoDb")
     public String addAtmIntoDb(Atm atm, Model model){
 
 
