@@ -21,9 +21,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 @Controller
 public class AtmController {
+    /*
+    All required classes interfaces and their references
+    */
     @Autowired
     AtmService atmService;
 
@@ -46,7 +50,7 @@ public class AtmController {
     static HttpSession httpSession;
 
     /*
-          ATM Login Logic
+    *     ATM Login Logic
     */
     @RequestMapping("login")
     public String login(Atm atm, HttpServletRequest request, Model model){
@@ -61,6 +65,8 @@ public class AtmController {
             httpSession.setAttribute("holderAccountNumber", atm.getAccountNumber());
             httpSession.setAttribute("holderAtmPin",atm.getAtmPin());
 
+            model.addAttribute("message","Welcome "+bankAccountRepository.findById(atm.getAccountNumber()).get().getAccountHolderName());
+
             System.out.println(httpSession.getId());
         }else{
             model.addAttribute("invalidPin","Wrong Pin Entered");
@@ -70,7 +76,7 @@ public class AtmController {
     }
 
     /*
-        ATM Logout Logic
+    *    ATM Logout Logic
     */
     @RequestMapping("logout")
     public String logout() {
@@ -82,7 +88,7 @@ public class AtmController {
     }
 
     /*
-         Deposit Balance Login
+    *    Deposit Balance Login
     */
     @RequestMapping("depositBalance")
     public String depositBalance(Double amount, Model model){
@@ -92,7 +98,7 @@ public class AtmController {
         Long accNo = (Long)httpSession1.getAttribute("holderAccountNumber");
         if (
 
-                bankAccountService.depositAmount(amount, accNo)
+                amount!=0 && bankAccountService.depositAmount(amount, accNo)
         ){
             System.out.println("Amount Deposit "+amount);
             model.addAttribute("message","Successfully deposit amount "+amount);
@@ -104,6 +110,9 @@ public class AtmController {
     }
 
 
+    /*
+    *       Withdraw Amount Logic
+    */
     @RequestMapping("withdrawBalance")
     public String withdrawBalance(Double amount, Model model){
         HttpSession httpSession1 = AtmController.httpSession;
@@ -113,9 +122,11 @@ public class AtmController {
         System.out.println(amount);
         System.out.println(accNo);
 
-        boolean value = bankAccountService.withdrawAmount(accNo, amount);
-        System.out.println(value);
-        if (value){
+//        boolean value = bankAccountService.withdrawAmount(accNo, amount);
+//        System.out.println(value);
+        if (
+                amount!=0 && bankAccountService.withdrawAmount(accNo, amount)
+        ){
             System.out.println("withdraw");
             model.addAttribute("message","Successfully withdraw amount "+amount);
             return page.welcomePage();
@@ -128,30 +139,37 @@ public class AtmController {
 
 
 
+    /*
+    *   Create Atm using Account Number
+    */
     @PostMapping("addAtmIntoDb")
-    public String addAtmIntoDb(Atm atm, Model model){
-
+    public String addAtmIntoDb(Long MobileNumber,Integer atmPin, Model model){
 
         try {
-            Long accountNumber = bankAccountRepository.findByMobileNumber(atm.getAccountNumber()).getAccountNumber();
-            if (atmService.getAtmData(accountNumber)!=null){
+            Long accountNumber = bankAccountRepository.findByMobileNumber(MobileNumber).getAccountNumber();
+            if(accountNumber==null) {
+                model.addAttribute("accountNumber","Mobile Number is not registered!");
+                throw new Exception();
+            }else if (atmService.getAtmData(accountNumber)!=null){
                 model.addAttribute("accountNumber","ATM already exists!");
                 throw new Exception();
             }
-            if(accountNumber==null)
-                throw new Exception();
+
+            Atm atm = new Atm();
             atm.setAccountNumber(accountNumber);
-            atm.setAtmPin(atm.getAtmPin());
+            atm.setAtmPin(atmPin);
             atmService.saveAtm(atm);
 
         }catch (Exception e){
-            model.addAttribute("accountNumber","Mobile Number is not registered!");
             return page.indexPage();
         }
         return page.atmLoginPage();
     }
 
 
+    /*
+    *   ATM Pin Change Logic
+    */
     @RequestMapping("changePin")
     public String validatePin(Integer amount){
         System.out.println("Inside Change Pin");
@@ -165,6 +183,10 @@ public class AtmController {
         return page.welcomePage();
     }
 
+
+    /*
+    *   Bank Balance will Be shown
+    */
     @RequestMapping("getBalance")
     public String getBalance(@NotNull Model model){
         HttpSession httpSession1 = AtmController.httpSession;
@@ -173,11 +195,15 @@ public class AtmController {
                 bankAccountRepository.findById(accountNumber).get().getAccountHolderBalance()
         );
         model.addAttribute("message",
-                "your balance is "+bankAccountRepository.findById(accountNumber).get().getAccountHolderBalance());
+                "your balance is "+bankAccountService.currentBalance(accountNumber));
 
         return page.welcomePage();
     }
 
+
+    /*
+    *    Transaction History Logic using Account Number
+    */
     @RequestMapping("accountHistory")
     public String getHistory(Model model){
         HttpSession httpSession1 = AtmController.httpSession;
@@ -188,6 +214,10 @@ public class AtmController {
         return page.transactionHistoryPage();
     }
 
+
+    /*
+    *   Update Pin using Account Number, Mobile Number, Updated Pin
+    */
     @RequestMapping("updatePin")
     public String updatePin(Long accountNumber, Long mobileNumber, Integer atmPin, Model model){
         try {

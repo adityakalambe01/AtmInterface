@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class PagesController {
+
+    /*
+    *   This class Manages all pages redirections
+    */
     @RequestMapping("")
     public String homePage(@NotNull Model model){
         model.addAttribute("accountNumber","Welcome To Online Bank Service");

@@ -12,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class BankAccountController {
+    /*
+    All required classes interfaces and their references
+    */
     @Autowired
     BankAccountService bankAccountService;
 
@@ -21,6 +24,10 @@ public class BankAccountController {
     @Autowired
     PagesController page;
 
+
+    /*
+    *   Add Account using Account Holder Name And Mobile Number
+    */
     @PostMapping("addAccountIntoDb")
     public String addAccountIntoDb(BankAccount bankAccount, Model model){
         try {
@@ -32,7 +39,7 @@ public class BankAccountController {
             System.out.println(
                     accountNumber
             );
-            model.addAttribute("accountNumber","Your Account Number is "+accountNumber);
+            model.addAttribute("accountNumber","your Account Number is "+accountNumber);
         }catch (Exception e){
             model.addAttribute("message","Mobile Number is already exists!");
             return page.atmLoginPage();
@@ -40,6 +47,10 @@ public class BankAccountController {
         return page.indexPage();
     }
 
+
+    /*
+    *   Logic To Find Account from Database
+    */
     @RequestMapping("findAccount")
     public ModelAndView findAccount(Long mobileNumber){
         ModelAndView mv = new ModelAndView();
