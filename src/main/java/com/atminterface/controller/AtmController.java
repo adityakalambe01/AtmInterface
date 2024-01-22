@@ -145,6 +145,7 @@ public class AtmController {
             atmService.saveAtm(atm);
 
         }catch (Exception e){
+            model.addAttribute("accountNumber","Mobile Number is not registered!");
             return page.indexPage();
         }
         return page.atmLoginPage();
